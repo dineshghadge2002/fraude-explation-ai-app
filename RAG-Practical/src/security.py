@@ -18,9 +18,9 @@ PII_PATTERNS = {
     ),
 
     "ACCOUNT_NUMBER": re.compile(
-        r"\b(?:account\s*(?:number|no\.?|#)|a/c\s*(?:no\.?|number|#)?)"
-        r"\s*(?:(?:is|:|=|#|-)\s*)?"
-        r"(?:\d[\s-]?){8,18}\b",
+        r"\b(account\s*(?:number|no\.?|#)|a/c\s*(?:no\.?|number|#)?)"
+        r"((?:\s+is)?\s*[:=#-]?\s*)"
+        r"((?:\d[\s-]?){8,18})\b",
         re.IGNORECASE,
     ),
 
@@ -36,7 +36,11 @@ def mask_pii(text: str) -> str:
 
     # Mask labelled account numbers before Aadhaar.
     sanitized = PII_PATTERNS["ACCOUNT_NUMBER"].sub(
-        "[ACCOUNT_NUMBER_REDACTED]",
+        lambda match: (
+            match.group(1)
+            + match.group(2)
+            + "[ACCOUNT_NUMBER_REDACTED]"
+        ),
         sanitized,
     )
 

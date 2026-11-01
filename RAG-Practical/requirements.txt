@@ -1,1 +1,12 @@
 pymupdf
+
+# PDF processing
+pymupdf==2.0
+
+# Embeddings and semantic search
+sentence-transformers==6.2.0
+faiss-cpu==1.15.1
+numpy==2.5.4
+
+# Testing
+pytest==9.2.0
